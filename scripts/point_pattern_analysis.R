@@ -34,13 +34,19 @@ truffles <- read.csv("data/truffles.csv")
 # 4. CREATE POINT PATTERN OBJECTS
 # =========================================================
 
-window <- ripras(nests$x, nests$y)
+all_x <- c(nests$x, trees$x, robberies$x, truffles$x)
+all_y <- c(nests$y, trees$y, robberies$y, truffles$y)
+
+window <- owin(
+    range(all_x, na.rm = TRUE), 
+    range(all_y, na.rm = TRUE)
+)
 
 patterns <- list(
-  nests = ppp(nests$x, nests$y, window = window),
-  trees = ppp(trees$x, trees$y, window = window),
-  robberies = ppp(robberies$x, robberies$y, window = window),
-  truffles = ppp(truffles$x, truffles$y, window = window)
+    nests     = ppp(nests$x, nests$y, window = window),
+    trees     = ppp(trees$x, trees$y, window = window),
+    robberies = ppp(robberies$x, robberies$y, window = window),
+    truffles  = ppp(truffles$x, truffles$y, window = window)
 )
 
 # =========================================================
