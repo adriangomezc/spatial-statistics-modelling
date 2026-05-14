@@ -20,11 +20,17 @@ The analyses combine exploratory spatial analysis, covariance modelling, neighbo
 
 # Repository Structure
 
-```text
+```text id="7jlwmn"
 spatial-statistics-modelling/
 │
 ├── data/
-│   └── elevation_spatial_data.csv
+│   ├── elevation_spatial_data.csv
+│   │
+│   └── point_patterns/
+│       ├── nests.csv
+│       ├── trees.csv
+│       ├── robberies.csv
+│       └── truffles.csv
 │
 ├── outputs/
 │   ├── figures/
@@ -33,12 +39,23 @@ spatial-statistics-modelling/
 │   │   ├── raw_variograms.png
 │   │   ├── residual_variogram.png
 │   │   ├── variogram_model_comparison.png
-│   │   └── universal_kriging_maps.png
+│   │   ├── universal_kriging_maps.png
+│   │   │
+│   │   ├── point_patterns_overview.png
+│   │   ├── quadrat_analysis.png
+│   │   ├── h_function_analysis.png
+│   │   ├── g_function_analysis.png
+│   │   ├── f_function_analysis.png
+│   │   └── kernel_intensity_maps.png
 │   │
 │   └── tables/
 │       ├── summary_statistics.csv
 │       ├── variogram_model_parameters.csv
-│       └── point_prediction.csv
+│       ├── point_prediction.csv
+│       │
+│       ├── point_pattern_summary.csv
+│       ├── csr_quadrat_tests.csv
+│       └── clustering_indices.csv
 │
 ├── scripts/
 │   ├── geostatistics_kriging.R
@@ -92,18 +109,16 @@ The analysis follows a standard geostatistical modelling pipeline:
 
 ---
 
-## Main Methods
+## Spatial Trend Modelling
 
-### Spatial Trend Surface Modelling
+Polynomial trend surfaces of degree 1 and degree 2 were evaluated to assess deterministic large-scale spatial variation.
 
-Polynomial trend surfaces of degree 1 and degree 2 were evaluated in order to assess large-scale deterministic spatial variation.
-
-The analysis identified a strong spatial trend in elevation across the study region, violating the constant mean assumption required for ordinary kriging.
+The analysis revealed a strong spatial trend in elevation across the study region, violating the constant mean assumption required for ordinary kriging.
 
 This justified the use of:
 
-* **Universal Kriging**
-* Residual spatial modelling after detrending
+* Universal Kriging
+* Residual covariance modelling after detrending
 
 ---
 
@@ -120,40 +135,36 @@ This behaviour confirmed:
 
 ### Residual Variogram
 
-After removing the polynomial trend surface, the residual variogram displayed the expected stationary behaviour:
+After removing the polynomial trend surface, the residual variogram exhibited stationary behaviour:
 
-* Initial nugget effect
+* Nugget effect near the origin
 * Increasing semivariance with distance
-* Stabilisation around a sill
+* Stabilisation around the sill
 
-This confirmed the presence of structured residual spatial dependence suitable for covariance modelling.
+This confirmed the existence of structured residual spatial dependence suitable for covariance modelling.
 
 ---
 
 ## Covariance Model Comparison
 
-Several theoretical covariance families were compared:
+Several theoretical covariance structures were compared:
 
 * Exponential
 * Spherical
 * Matérn
 * Powered Exponential
 
-The fitted models were estimated using likelihood-based methodologies and compared visually against the empirical residual variogram.
-
-### Main Spatial Parameters
-
-The fitted covariance structures revealed:
+The fitted covariance models revealed:
 
 | Parameter     | Approximate Range |
 | ------------- | ----------------- |
 | Nugget effect | 566 – 1089        |
 | Sill          | 2000 – 2600       |
 
-The nugget effect indicates the presence of:
+The nugget effect suggests:
 
-* Small-scale spatial variability
-* Local terrain irregularities
+* Local terrain variability
+* Small-scale spatial heterogeneity
 * Potential measurement noise
 
 ---
@@ -170,7 +181,7 @@ Two major outputs were generated:
 
 ### Elevation Prediction Surface
 
-A continuous terrain elevation map was reconstructed across the entire study region.
+A continuous terrain elevation map was reconstructed across the entire spatial domain.
 
 ### Kriging Variance Surface
 
@@ -197,7 +208,176 @@ The final objective consisted of predicting elevation at the unsampled spatial l
 | Standard error          | 52.80 m            |
 | 95% confidence interval | [1057.70, 1264.69] |
 
-The relatively moderate prediction uncertainty suggests stable interpolation performance around the central region of the study domain.
+The moderate prediction uncertainty suggests stable interpolation performance around the central region of the study domain.
+
+---
+
+# Phase 2 — Spatial Point Pattern Analysis
+
+The second stage analyses spatial point configurations under different stochastic spatial processes.
+
+The objective is to distinguish between:
+
+* Complete spatial randomness
+* Inhibitory spatial structures
+* Clustered spatial processes
+* Spatial heterogeneity and hotspot formation
+
+---
+
+# Point Pattern Workflow
+
+The analysis combines:
+
+1. Exploratory spatial visualisation
+2. Quadrat-based CSR testing
+3. Nearest-neighbour statistics
+4. Spatial interaction functions
+5. Kernel intensity estimation
+
+Four different spatial point patterns were analysed:
+
+* Nests
+* Trees
+* Robberies
+* Truffles
+
+---
+
+## Complete Spatial Randomness (CSR) Testing
+
+CSR was evaluated using:
+
+* Quadrat chi-square tests
+* Clark–Evans nearest-neighbour index
+
+### Main Findings
+
+| Pattern   | Spatial Structure          |
+| --------- | -------------------------- |
+| Nests     | Approximately random (CSR) |
+| Trees     | Inhibitory / regular       |
+| Robberies | Strong clustering          |
+| Truffles  | Strong clustering          |
+
+### Key Statistical Results
+
+#### Nests
+
+The nests pattern behaved almost exactly as a random spatial process:
+
+* Quadrat test p-value: **0.91**
+* Clark–Evans index: **~1.0**
+
+This indicates compatibility with Complete Spatial Randomness.
+
+#### Trees
+
+The tree distribution exhibited strong spatial inhibition:
+
+* Quadrat test p-value: **0.0006**
+* Clark–Evans index: **~1.45**
+
+An index greater than 1 indicates that trees are systematically more separated than expected under random placement, suggesting competitive spatial interaction.
+
+#### Robberies and Truffles
+
+Both patterns strongly rejected CSR:
+
+* Extremely small p-values
+* Severe spatial clustering
+* Presence of concentrated hotspots and empty regions
+
+---
+
+## Nearest-Neighbour Analysis
+
+The mean nearest-neighbour distance provided additional evidence regarding local spatial interaction.
+
+### Main Finding
+
+Trees displayed the largest nearest-neighbour distances:
+
+* Mean NN distance ≈ **0.071**
+
+This confirms the existence of spatial repulsion or inhibitory processes.
+
+Conversely:
+
+* Robberies exhibited extremely short neighbour distances
+* Strong local aggregation was observed
+
+---
+
+## Spatial Interaction Functions
+
+Three complementary functional statistics were analysed:
+
+* G function
+* F function
+* H/L (Besag) function
+
+### G Function — Nearest-Neighbour Interaction
+
+The trees pattern displayed a clear deficit of short distances relative to CSR expectations.
+
+This behaviour confirms:
+
+* Spatial inhibition
+* Repulsion between neighbouring events
+
+### F Function — Empty Space Function
+
+Robberies and truffles displayed rapid increases in the F function.
+
+This indicates:
+
+* Large empty regions
+* Highly concentrated spatial clusters
+* Strong spatial heterogeneity
+
+### H/L Function — Global Clustering
+
+The H/L function revealed strong positive deviations for robberies and truffles.
+
+This confirms:
+
+* Multi-scale clustering
+* Significant departure from random spatial organisation
+
+The peaks of the curves identify the approximate spatial scale at which clustering intensity becomes maximal.
+
+---
+
+## Kernel Intensity Estimation
+
+Kernel density estimation transformed discrete point events into continuous hotspot maps.
+
+### Main Findings
+
+#### Nests
+
+* Relatively homogeneous intensity surface
+* Weak spatial heterogeneity
+* Near-random spatial organisation
+
+#### Trees
+
+* Smooth and uniform intensity surface
+* Absence of strong hotspots
+* Spatial regularity
+
+#### Robberies
+
+* Extreme hotspot concentration
+* Strong spatial aggregation
+* Large low-density regions surrounding focal clusters
+
+#### Truffles
+
+* Aggregated structure with spatial gradients
+* Multiple density concentrations
+* Combination of clustering and inhomogeneity
 
 ---
 
@@ -205,44 +385,31 @@ The relatively moderate prediction uncertainty suggests stable interpolation per
 
 ## Figures
 
-| Output                           | Description                                       |
-| -------------------------------- | ------------------------------------------------- |
-| `spatial_locations.png`          | Spatial distribution of sampled locations         |
-| `trend_surfaces.png`             | Polynomial trend surface visualisation            |
-| `raw_variograms.png`             | Empirical variograms before detrending            |
-| `residual_variogram.png`         | Residual stationary variogram                     |
-| `variogram_model_comparison.png` | Covariance model comparison                       |
-| `universal_kriging_maps.png`     | Universal kriging prediction and uncertainty maps |
+| Output                           | Description                                      |
+| -------------------------------- | ------------------------------------------------ |
+| `spatial_locations.png`          | Spatial distribution of sampled elevation points |
+| `trend_surfaces.png`             | Polynomial spatial trend surfaces                |
+| `raw_variograms.png`             | Variograms before detrending                     |
+| `residual_variogram.png`         | Residual stationary variogram                    |
+| `variogram_model_comparison.png` | Covariance model comparison                      |
+| `universal_kriging_maps.png`     | Universal kriging prediction and uncertainty     |
+| `point_patterns_overview.png`    | Visualisation of all point patterns              |
+| `quadrat_analysis.png`           | Quadrat partition analysis                       |
+| `h_function_analysis.png`        | H/L spatial interaction functions                |
+| `g_function_analysis.png`        | G nearest-neighbour functions                    |
+| `f_function_analysis.png`        | F empty-space functions                          |
+| `kernel_intensity_maps.png`      | Kernel hotspot intensity estimation              |
 
 ## Tables
 
-| Output                           | Description                      |
-| -------------------------------- | -------------------------------- |
-| `summary_statistics.csv`         | Descriptive statistics           |
-| `variogram_model_parameters.csv` | Fitted covariance parameters     |
-| `point_prediction.csv`           | Final kriging prediction results |
-
----
-
-# Phase 2 — Spatial Point Pattern Analysis
-
-The second stage analyses spatial point configurations under different spatial processes.
-
-Main methodologies include:
-
-* Complete Spatial Randomness (CSR) testing
-* Quadrat analysis
-* Clustering indices
-* Nearest-neighbour analysis
-* H, G and F spatial functions
-* Kernel intensity estimation
-
-The objective is to distinguish between:
-
-* Random spatial processes
-* Clustered processes
-* Inhibitory spatial structures
-* Spatial heterogeneity
+| Output                           | Description                          |
+| -------------------------------- | ------------------------------------ |
+| `summary_statistics.csv`         | Elevation descriptive statistics     |
+| `variogram_model_parameters.csv` | Covariance model parameters          |
+| `point_prediction.csv`           | Kriging point prediction             |
+| `point_pattern_summary.csv`      | Point pattern descriptive statistics |
+| `csr_quadrat_tests.csv`          | CSR chi-square tests                 |
+| `clustering_indices.csv`         | Nearest-neighbour clustering metrics |
 
 ---
 
@@ -267,15 +434,16 @@ The workflow combines demographic covariates with neighbour-based spatial effect
 
 * R
 * geoR
+* spatstat
 * sf
 * spdep
-* spatstat
 * ggplot2
 * dplyr
 * spatial statistics
 * geostatistics
 * kriging
 * spatial epidemiology
+* point process analysis
 
 ---
 
@@ -285,4 +453,4 @@ The workflow combines demographic covariates with neighbour-based spatial effect
 
 MSc Biostatistics Candidate
 
-Spatial Statistics · Geostatistics · Epidemiological Modelling · Applied Data Analysis
+Spatial Statistics · Geostatistics · Spatial Epidemiology · Applied Data Analysis
