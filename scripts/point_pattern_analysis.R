@@ -155,7 +155,7 @@ clustering_indices <- lapply(names(patterns), function(name){
     Pattern = name,
     Mean_NN = mean(nn),
     Variance_NN = var(nn),
-    Clark_Evans_R = clarkevans(patterns[[name"]])$R
+    Clark_Evans_R = clarkevans(patterns[[name]])$R
   )
 
 })
