@@ -25,10 +25,10 @@ dir.create("outputs/tables", showWarnings = FALSE)
 # 3. LOAD DATA
 # =========================================================
 
-nests <- read.csv("data/point_patterns/nests.csv")
-trees <- read.csv("data/point_patterns/trees.csv")
-robberies <- read.csv("data/point_patterns/robberies.csv")
-truffles <- read.csv("data/point_patterns/truffles.csv")
+nests <- read.csv("data/nests.csv")
+trees <- read.csv("data/trees.csv")
+robberies <- read.csv("data/robberies.csv")
+truffles <- read.csv("data/truffles.csv")
 
 # =========================================================
 # 4. CREATE POINT PATTERN OBJECTS
