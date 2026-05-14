@@ -34,7 +34,7 @@ truffles <- read.csv("data/truffles.csv")
 # 4. CREATE POINT PATTERN OBJECTS
 # =========================================================
 
-window <- owin(c(0, 1), c(0, 1))
+window <- ripras(nests$x, nests$y)
 
 patterns <- list(
   nests = ppp(nests$x, nests$y, window = window),
@@ -161,11 +161,7 @@ clustering_indices <- lapply(names(patterns), function(name){
 
 results <- do.call(rbind, clustering_indices)
 
-write.csv(
-  clustering_indices,
-  "outputs/tables/clustering_indices.csv",
-  row.names = FALSE
-)
+write.csv(results, "outputs/tables/clustering_indices.csv", row.names = FALSE)
 
 # =========================================================
 # 10. H FUNCTION ANALYSIS
@@ -181,15 +177,13 @@ png(
 par(mfrow = c(2,2))
 
 for(name in names(patterns)){
-
-  K <- Kest(patterns[[name]], correction = "border")
-  L <- Lest(patterns[[name]], correction = "border")
-
-  plot(
-    L,
-    main = paste(name, "- H/L Function")
-  )
-
+    L <- Lest(patterns[[name]], correction = "best")
+    
+    plot(
+        L, 
+        . - r ~ r, 
+        main = paste(name, "- H Function")
+    )
 }
 
 dev.off()
