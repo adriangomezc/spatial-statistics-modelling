@@ -148,19 +148,18 @@ dev.off()
 # =========================================================
 
 clustering_indices <- lapply(names(patterns), function(name){
-
-  nn <- nndist(patterns[[name]])
-
-  data.frame(
-    Pattern = name,
-    Mean_NN = mean(nn),
-    Variance_NN = var(nn),
-    Clark_Evans_R = clarkevans(patterns[[name]])$R
-  )
-
+  
+    nn <- nndist(patterns[[name]])
+    
+    data.frame(
+        Pattern = name,
+        Mean_NN = mean(nn),
+        Variance_NN = var(nn),
+        Clark_Evans_R = as.numeric(clarkevans(patterns[[name]]))
+    )
 })
 
-clustering_indices <- bind_rows(clustering_indices)
+results <- do.call(rbind, clustering_indices)
 
 write.csv(
   clustering_indices,
