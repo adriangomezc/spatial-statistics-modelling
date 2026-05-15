@@ -129,7 +129,7 @@ The analysis follows a classical geostatistical modelling pipeline:
 
 Polynomial trend surfaces of degree 1 and degree 2 were evaluated to assess deterministic spatial variation.
 
-A strong spatial trend in elevation was detected, violating the constant mean assumption required for ordinary kriging.
+A strong spatial trend in elevation was detected, violating the constant mean assumption required for ordinary kriging. While a degree 2 surface was utilized, care must be taken as higher-degree polynomials can artificially force curvature and over-extrapolate near the study area boundaries.
 
 This justified the use of:
 
@@ -450,15 +450,13 @@ Only demographic ageing (`edad`) showed statistical significance:
 | Income | p = 0.42 |
 | Unemployment | p = 0.32 |
 
-The results suggest that demographic composition explains prevalence variation more strongly than economic indicators (which lacked statistical significance) in this dataset.
+The results suggest that demographic composition explains prevalence variation more strongly than economic indicators. The lack of statistical significance in economic variables may also be influenced by underlying multicollinearity or unmeasured local factors.
 
 ---
 
 ## Spatial Autocorrelation
 
-Spatial neighbour structures were constructed to evaluate municipality-level dependence.
-
-Autocorrelation was assessed using Moran’s I statistics.
+Spatial neighbour structures were constructed to evaluate municipality-level dependence. Autocorrelation was assessed using Moran’s I statistics.
 
 ### Main Results
 
@@ -469,7 +467,7 @@ Autocorrelation was assessed using Moran’s I statistics.
 
 ### Interpretation
 
-The residual Moran's I test yielded a marginal p-value (0.063). While not strictly significant at the classical 5% level, this borderline result suggests a potential latent spatial structure that warrants further spatial modelling, rather than an absolute absence of spatial spillover effects.
+The residual Moran's I test yielded a marginal p-value (0.063). While not strictly significant at the classical 5% level, this borderline result suggests a potential latent spatial structure that warrants further spatial modelling, rather than an absolute absence of spatial spillover effects. *(Note: This sensitivity is highly dependent on the chosen contiguity/weight matrix, which may treat large inland and small coastal municipalities differently.)*
 
 ---
 
