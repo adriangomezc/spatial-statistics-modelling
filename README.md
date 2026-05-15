@@ -18,11 +18,9 @@ The project combines:
 
 The repository is organised into three complementary spatial modelling frameworks:
 
-1. Geostatistical modelling and universal kriging
-2. Spatial point pattern analysis
-3. Spatial epidemiological modelling
-
-The analyses integrate exploratory spatial analysis, covariance modelling, neighbour-based dependence structures and spatial prediction methodologies.
+1. Geostatistical modelling and universal kriging: Modeling elevation with non-stationary trends.
+2. Spatial point pattern analysis: Testing CSR and interaction scales in biological and social patterns.
+3. Spatial epidemiological modelling: Analyzing lead prevalence using spatial regression and neighbor structures.
 
 ---
 
@@ -32,56 +30,57 @@ The analyses integrate exploratory spatial analysis, covariance modelling, neigh
 spatial-statistics-modelling/
 │
 ├── data/
-│   ├── elevation_spatial_data.csv
-│   │
-│   └── point_patterns/
-│       ├── nests.csv
-│       ├── trees.csv
-│       ├── robberies.csv
-│       └── truffles.csv
+│   ├── elevation_spatial_data.csv
+│   │
+│   └── point_patterns/
+│       ├── nests.csv
+│       ├── trees.csv
+│       ├── robberies.csv
+│       └── truffles.csv
 │
 ├── outputs/
-│   ├── figures/
-│   │   ├── spatial_locations.png
-│   │   ├── trend_surfaces.png
-│   │   ├── raw_variograms.png
-│   │   ├── residual_variogram.png
-│   │   ├── variogram_model_comparison.png
-│   │   ├── universal_kriging_maps.png
-│   │   │
-│   │   ├── point_patterns_overview.png
-│   │   ├── quadrat_analysis.png
-│   │   ├── h_function_analysis.png
-│   │   ├── g_function_analysis.png
-│   │   ├── f_function_analysis.png
-│   │   └── kernel_intensity_maps.png
-│   │
-│   │   ├── lead_prevalence_map.jpg
-│   │   ├── neighbour_structure.png
-│   │   ├── residual_distribution.png
-│   │   └── spatial_residuals_map.jpg
-│   │
-│   └── tables/
-│       ├── summary_statistics.csv
-│       ├── variogram_model_parameters.csv
-│       ├── point_prediction.csv
-│       │
-│       ├── point_pattern_summary.csv
-│       ├── csr_quadrat_tests.csv
-│       ├── clustering_indices.csv
-│       │
-│       ├── epidemiology_summary.csv
-│       ├── logistic_model_results.csv
-│       ├── moran_statistics.csv
-│       └── model_comparison.csv
+│   ├── figures/
+│   │   ├── spatial_locations.png
+│   │   ├── trend_surfaces.png
+│   │   ├── raw_variograms.png
+│   │   ├── residual_variogram.png
+│   │   ├── variogram_model_comparison.png
+│   │   ├── universal_kriging_maps.png
+│   │   │
+│   │   ├── point_patterns_overview.png
+│   │   ├── quadrat_analysis.png
+│   │   ├── h_function_analysis.png
+│   │   ├── g_function_analysis.png
+│   │   ├── f_function_analysis.png
+│   │   └── kernel_intensity_maps.png
+│   │
+│   │   ├── lead_prevalence_map.jpg
+│   │   ├── neighbour_structure.png
+│   │   ├── residual_distribution.png
+│   │   └── spatial_residuals_map.jpg
+│   │
+│   └── tables/
+│       ├── summary_statistics.csv
+│       ├── variogram_model_parameters.csv
+│       ├── point_prediction.csv
+│       │
+│       ├── point_pattern_summary.csv
+│       ├── csr_quadrat_tests.csv
+│       ├── clustering_indices.csv
+│       │
+│       ├── epidemiology_summary.csv
+│       ├── logistic_model_results.csv
+│       ├── moran_statistics.csv
+│       └── model_comparison.csv
 │
 ├── scripts/
-│   ├── geostatistics_kriging.R
-│   ├── point_pattern_analysis.R
-│   └── spatial_epidemiology.R
+│   ├── geostatistics_kriging.R
+│   ├── point_pattern_analysis.R
+│   └── spatial_epidemiology.R
 │
 ├── README.md
 └── LICENSE
+
 ```
 
 ---
@@ -102,12 +101,12 @@ The objective is to model terrain elevation while accounting for large-scale spa
 
 ### Summary Statistics
 
-| Metric             | Value     |
-| ------------------ | --------- |
-| Mean elevation     | 1143.79 m |
-| Minimum elevation  | 885.11 m  |
-| Maximum elevation  | 1462.68 m |
-| Standard deviation | 142.55 m  |
+| Metric | Value |
+| --- | --- |
+| Mean elevation | 1143.79 m |
+| Minimum elevation | 885.11 m |
+| Maximum elevation | 1462.68 m |
+| Standard deviation | 142.55 m |
 
 The spatial sampling design provides homogeneous spatial coverage without major unsampled gaps.
 
@@ -173,15 +172,15 @@ Several theoretical covariance structures were compared:
 
 ### Main Spatial Parameters
 
-| Parameter     | Approximate Range |
-| ------------- | ----------------- |
-| Nugget effect | 566 – 1089        |
-| Sill          | 2000 – 2600       |
+| Parameter | Approximate Range |
+| --- | --- |
+| Nugget effect | 566 – 1089 |
+| Sill | 2000 – 2600 |
 
-The nugget effect suggests:
+The nugget effect—representing nearly 40-50% of the total variance—suggests:
 
-* Local terrain variability
-* Small-scale heterogeneity
+* Substantial local terrain variability and micro-scale heterogeneity
+* A highly "noisy" spatial process where a large portion of the variance is not spatially structured at the sampled scale
 * Potential measurement noise
 
 ---
@@ -219,13 +218,13 @@ The final objective consisted of predicting elevation at:
 
 ### Universal Kriging Prediction
 
-| Metric                  | Value              |
-| ----------------------- | ------------------ |
-| Predicted elevation     | 1161.19 m          |
-| Standard error          | 52.80 m            |
+| Metric | Value |
+| --- | --- |
+| Predicted elevation | 1161.19 m |
+| Standard error | 52.80 m |
 | 95% confidence interval | [1057.70, 1264.69] |
 
-The moderate prediction uncertainty suggests stable interpolation performance around the central region of the spatial domain.
+The prediction standard error (52.80 m) is substantial relative to the total standard deviation of the series (142.55 m). This reflects the high nugget effect observed in the variogram, indicating that the final interpolation relies heavily on the deterministic polynomial trend surface rather than strong local spatial correlation.
 
 ---
 
@@ -266,16 +265,16 @@ Four spatial point patterns were analysed:
 CSR was evaluated using:
 
 * Quadrat chi-square tests
-* Clark–Evans nearest-neighbour index
+* Clark–Evans nearest-neighbour index (evaluating multiple edge corrections such as Donnelly and Guard)
 
 ### Main Findings
 
-| Pattern   | Spatial Structure          |
-| --------- | -------------------------- |
-| Nests     | Approximately random (CSR) |
-| Trees     | Inhibitory / regular       |
-| Robberies | Strong clustering          |
-| Truffles  | Strong clustering          |
+| Pattern | Spatial Structure |
+| --- | --- |
+| Nests | Approximately random (CSR) |
+| Trees | Inhibitory / regular |
+| Robberies | Strong clustering |
+| Truffles | Strong clustering |
 
 ### Key Statistical Results
 
@@ -295,14 +294,14 @@ The tree distribution exhibited strong spatial inhibition:
 * Quadrat test p-value: **0.0006**
 * Clark–Evans index: **~1.45**
 
-An index greater than 1 indicates that trees are systematically more separated than expected under random placement.
+An index greater than 1 indicates that trees are systematically more separated than expected under random placement, pointing towards biological competition for resources.
 
 #### Robberies and Truffles
 
 Both patterns strongly rejected CSR:
 
 * Extremely small p-values
-* Severe spatial clustering
+* Severe spatial clustering at short scales
 * Presence of concentrated hotspots
 
 ---
@@ -317,12 +316,12 @@ Trees displayed the largest nearest-neighbour distances:
 
 * Mean NN distance ≈ **0.071**
 
-This confirms the existence of inhibitory spatial interaction.
+This confirms the existence of inhibitory spatial interaction at a local scale.
 
 Conversely:
 
 * Robberies exhibited extremely short neighbour distances
-* Strong local aggregation was observed
+* Strong local aggregation was observed, consistent with urban density and socio-economic hotspots.
 
 ---
 
@@ -340,8 +339,8 @@ The trees pattern displayed a deficit of short distances relative to CSR expecta
 
 This confirms:
 
-* Spatial inhibition
-* Repulsion between neighbouring events
+* Spatial inhibition at short radii
+* Repulsion between neighbouring events driven by ecological constraints
 
 ### F Function
 
@@ -351,7 +350,7 @@ This indicates:
 
 * Large empty regions
 * Concentrated spatial clusters
-* Strong spatial heterogeneity
+* Strong spatial heterogeneity driven by environmental or social variables
 
 ### H/L Function
 
@@ -360,7 +359,7 @@ The H/L function revealed strong positive deviations for robberies and truffles.
 This confirms:
 
 * Multi-scale clustering
-* Significant departure from random spatial organisation
+* Significant departure from random spatial organisation, peaking at distinct interaction distances.
 
 ---
 
@@ -422,12 +421,12 @@ The analysis combines:
 
 ### Study Population
 
-| Metric             | Value  |
-| ------------------ | ------ |
-| Municipalities     | 135    |
-| Total participants | 2001   |
-| Positive cases     | 1026   |
-| Global prevalence  | 51.27% |
+| Metric | Value |
+| --- | --- |
+| Municipalities | 135 |
+| Total participants | 2001 |
+| Positive cases | 1026 |
+| Global prevalence | 51.27% |
 
 The prevalence map revealed heterogeneous spatial distribution of elevated blood lead prevalence across municipalities.
 
@@ -445,13 +444,13 @@ The epidemiological model evaluated the association between prevalence and sever
 
 Only demographic ageing (`edad`) showed statistical significance:
 
-| Variable     | Statistical Significance |
-| ------------ | ------------------------ |
-| Edad         | p = 0.039                |
-| Income       | p = 0.42                 |
-| Unemployment | p = 0.32                 |
+| Variable | Statistical Significance |
+| --- | --- |
+| Edad | p = 0.039 |
+| Income | p = 0.42 |
+| Unemployment | p = 0.32 |
 
-The results suggest that demographic composition explains prevalence variation more strongly than economic indicators in this dataset.
+The results suggest that demographic composition explains prevalence variation more strongly than economic indicators (which lacked statistical significance) in this dataset.
 
 ---
 
@@ -463,17 +462,14 @@ Autocorrelation was assessed using Moran’s I statistics.
 
 ### Main Results
 
-| Variable           | Moran Test p-value |
-| ------------------ | ------------------ |
-| Disease prevalence | 0.109              |
-| Model residuals    | 0.063              |
+| Variable | Moran Test p-value |
+| --- | --- |
+| Disease prevalence | 0.109 |
+| Model residuals | 0.063 |
 
 ### Interpretation
 
-At the 95% confidence level:
-
-* No strong evidence of spatial autocorrelation was detected
-* Disease risk appears to be explained primarily by municipality-specific demographic characteristics rather than direct spatial spillover effects
+The residual Moran's I test yielded a marginal p-value (0.063). While not strictly significant at the classical 5% level, this borderline result suggests a potential latent spatial structure that warrants further spatial modelling, rather than an absolute absence of spatial spillover effects.
 
 ---
 
@@ -483,18 +479,16 @@ A classical logistic regression model was compared against a spatially informed 
 
 ### Main Results
 
-| Model                    | AIC    |
-| ------------------------ | ------ |
+| Model | AIC |
+| --- | --- |
 | Classical logistic model | 704.21 |
-| Spatial logistic model   | 700.06 |
+| Spatial logistic model | 700.06 |
 
 The spatial model also achieved lower deviance values.
 
 ### Interpretation
 
-Although spatial autocorrelation was relatively weak, incorporating neighbourhood information improved predictive and explanatory performance.
-
-This suggests the presence of subtle latent spatial structure not fully captured by standard covariates.
+Despite the marginal Moran's I p-value, incorporating neighbourhood information actively improved the predictive and explanatory performance (lowering the AIC). This confirms the presence of subtle latent spatial structure not fully captured by standard demographic covariates.
 
 ---
 
@@ -505,8 +499,8 @@ Residual analysis confirmed that the final spatial model achieved relatively bal
 ### Main Findings
 
 * Residual distributions showed no major systematic bias
-* Spatial residual maps identified municipalities where local unexplained variation remained elevated
-* These areas may represent unmeasured local environmental or socioeconomic factors
+* Spatial residual maps identified specific municipality clusters where local unexplained variation remained elevated
+* These areas likely represent unmeasured local environmental or socioeconomic factors not included in the primary dataset
 
 ---
 
@@ -514,41 +508,41 @@ Residual analysis confirmed that the final spatial model achieved relatively bal
 
 ## Figures
 
-| Output                           | Description                                      |
-| -------------------------------- | ------------------------------------------------ |
-| `spatial_locations.png`          | Spatial distribution of sampled elevation points |
-| `trend_surfaces.png`             | Polynomial spatial trend surfaces                |
-| `raw_variograms.png`             | Variograms before detrending                     |
-| `residual_variogram.png`         | Residual stationary variogram                    |
-| `variogram_model_comparison.png` | Covariance model comparison                      |
-| `universal_kriging_maps.png`     | Universal kriging prediction and uncertainty     |
-| `point_patterns_overview.png`    | Visualisation of all point patterns              |
-| `quadrat_analysis.png`           | Quadrat partition analysis                       |
-| `h_function_analysis.png`        | H/L spatial interaction functions                |
-| `g_function_analysis.png`        | G nearest-neighbour functions                    |
-| `f_function_analysis.png`        | F empty-space functions                          |
-| `kernel_intensity_maps.png`      | Kernel hotspot intensity estimation              |
-| `lead_prevalence_map.jpg`        | Municipal prevalence distribution                |
-| `neighbour_structure.png`        | Spatial neighbour network                        |
-| `residual_distribution.png`      | Histogram of model residuals                     |
-| `spatial_residuals_map.jpg`      | Spatial distribution of residuals                |
+| Output | Description |
+| --- | --- |
+| `spatial_locations.png` | Spatial distribution of sampled elevation points |
+| `trend_surfaces.png` | Polynomial spatial trend surfaces |
+| `raw_variograms.png` | Variograms before detrending |
+| `residual_variogram.png` | Residual stationary variogram |
+| `variogram_model_comparison.png` | Covariance model comparison |
+| `universal_kriging_maps.png` | Universal kriging prediction and uncertainty |
+| `point_patterns_overview.png` | Visualisation of all point patterns |
+| `quadrat_analysis.png` | Quadrat partition analysis |
+| `h_function_analysis.png` | H/L spatial interaction functions |
+| `g_function_analysis.png` | G nearest-neighbour functions |
+| `f_function_analysis.png` | F empty-space functions |
+| `kernel_intensity_maps.png` | Kernel hotspot intensity estimation |
+| `lead_prevalence_map.jpg` | Municipal prevalence distribution |
+| `neighbour_structure.png` | Spatial neighbour network |
+| `residual_distribution.png` | Histogram of model residuals |
+| `spatial_residuals_map.jpg` | Spatial distribution of residuals |
 
 ---
 
 ## Tables
 
-| Output                           | Description                            |
-| -------------------------------- | -------------------------------------- |
-| `summary_statistics.csv`         | Elevation descriptive statistics       |
-| `variogram_model_parameters.csv` | Covariance model parameters            |
-| `point_prediction.csv`           | Kriging point prediction               |
-| `point_pattern_summary.csv`      | Point pattern descriptive statistics   |
-| `csr_quadrat_tests.csv`          | CSR chi-square tests                   |
-| `clustering_indices.csv`         | Nearest-neighbour clustering metrics   |
-| `epidemiology_summary.csv`       | Epidemiological descriptive statistics |
-| `logistic_model_results.csv`     | Logistic regression coefficients       |
-| `moran_statistics.csv`           | Spatial autocorrelation statistics     |
-| `model_comparison.csv`           | Spatial vs classical model comparison  |
+| Output | Description |
+| --- | --- |
+| `summary_statistics.csv` | Elevation descriptive statistics |
+| `variogram_model_parameters.csv` | Covariance model parameters |
+| `point_prediction.csv` | Kriging point prediction |
+| `point_pattern_summary.csv` | Point pattern descriptive statistics |
+| `csr_quadrat_tests.csv` | CSR chi-square tests |
+| `clustering_indices.csv` | Nearest-neighbour clustering metrics |
+| `epidemiology_summary.csv` | Epidemiological descriptive statistics |
+| `logistic_model_results.csv` | Logistic regression coefficients |
+| `moran_statistics.csv` | Spatial autocorrelation statistics |
+| `model_comparison.csv` | Spatial vs classical model comparison |
 
 ---
 
