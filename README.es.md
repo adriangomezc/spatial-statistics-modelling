@@ -15,7 +15,7 @@ El proyecto combina:
 
 ---
 
-# Visión General del Proyecto
+# Visión general
 
 El repositorio está organizado en tres marcos de modelización espacial complementarios:
 
@@ -86,7 +86,7 @@ spatial-statistics-modelling/
 
 ---
 
-# Fase 1 — Modelización Geoestadística y Kriging Universal
+# Fase 1 — Modelización geoestadística y Kriging Universal
 
 La primera etapa se centra en la interpolación espacial bajo condiciones de no estacionariedad utilizando metodologías geoestadísticas.
 
@@ -94,13 +94,13 @@ El objetivo es modelar la elevación del terreno teniendo en cuenta las tendenci
 
 ---
 
-## Conjunto de Datos
+## Conjunto de datos
 
 * **Observaciones:** 100 ubicaciones espaciales
 * **Variables:** coordenadas espaciales (`x`, `y`) y elevación (`alt`)
 * **Variable de respuesta:** elevación del terreno (metros)
 
-### Estadísticos Resumen
+### Estadísticos
 
 | Métrica | Valor |
 | --- | --- |
@@ -113,7 +113,7 @@ El diseño del muestreo espacial proporciona una cobertura homogénea en el terr
 
 ---
 
-# Flujo de Trabajo Geoestadístico
+# Flujo de trabajo
 
 El análisis sigue una metodología clásica de modelización geoestadística:
 
@@ -126,7 +126,7 @@ El análisis sigue una metodología clásica de modelización geoestadística:
 
 ---
 
-## Modelado de la Tendencia Espacial
+## Modelado de la tendencia espacial
 
 Se evaluaron superficies de tendencia polinómica de primer y segundo grado para analizar la variación espacial determinista.
 
@@ -139,9 +139,9 @@ Esto justificó el uso de:
 
 ---
 
-## Análisis del Variograma
+## Análisis del variograma
 
-### Variogramas Brutos
+### Variogramas brutos
 
 Los variogramas empíricos calculados sobre los valores originales de elevación mostraron una semivarianza continuamente creciente sin estabilización.
 
@@ -150,7 +150,7 @@ Este comportamiento confirmó:
 * La presencia de no estacionariedad en la media
 * Una fuerte tendencia espacial determinista
 
-### Variograma Residual
+### Variograma residual
 
 Tras eliminar la superficie de tendencia polinómica, el variograma residual mostró un comportamiento estacionario:
 
@@ -162,7 +162,7 @@ Esto confirmó la existencia de una dependencia espacial residual estructurada, 
 
 ---
 
-## Comparación de Modelos de Covarianza
+## Comparación de modelos de covarianza
 
 Se compararon varias estructuras teóricas de covarianza:
 
@@ -171,7 +171,7 @@ Se compararon varias estructuras teóricas de covarianza:
 * Matérn
 * Exponencial potencial (*Powered Exponential*)
 
-### Principales Parámetros Espaciales
+### Principales parámetros espaciales
 
 | Parámetro | Rango Aproximado |
 | --- | --- |
@@ -186,7 +186,7 @@ El efecto pepita —que representa casi el 40-50% de la varianza total— sugier
 
 ---
 
-## Kriging Universal
+## Kriging universal
 
 La etapa de interpolación final combinó:
 
@@ -194,13 +194,13 @@ La etapa de interpolación final combinó:
 * La estructura de covarianza residual
 * La predicción por kriging universal
 
-### Principales Resultados
+### Principales resultados
 
-#### Superficie de Predicción de la Elevación
+#### Superficie de predicción de la elevación
 
 Se reconstruyó un mapa continuo de la elevación del terreno para toda la región de estudio.
 
-#### Superficie de Varianza del Kriging
+#### Superficie de varianza del kriging
 
 La incertidumbre de la predicción se cuantificó espacialmente.
 
@@ -211,7 +211,7 @@ Como era de esperar:
 
 ---
 
-## Predicción Puntual
+## Predicción puntual
 
 El objetivo final consistió en predecir la elevación en:
 
@@ -229,7 +229,7 @@ El error estándar de la predicción (52,80 m) es considerable en relación con 
 
 ---
 
-# Fase 2 — Análisis de Patrones de Puntos Espaciales
+# Fase 2 — Análisis de patrones de puntos espaciales
 
 La segunda etapa analiza las configuraciones de puntos espaciales bajo diferentes procesos espaciales estocásticos.
 
@@ -242,7 +242,7 @@ El objetivo es distinguir entre:
 
 ---
 
-# Flujo de Trabajo de Patrones de Puntos
+# Flujo de trabajo
 
 El análisis combina:
 
@@ -268,7 +268,7 @@ La CSR se evaluó mediante:
 * Pruebas de chi-cuadrado por cuadrantes
 * Índice de Clark-Evans del vecino más próximo (evaluando múltiples correcciones de borde como Donnelly y Guard)
 
-### Principales Hallazgos
+### Principales hallazgos
 
 | Patrón | Estructura Espacial |
 | --- | --- |
@@ -277,7 +277,7 @@ La CSR se evaluó mediante:
 | Robos | Fuertemente agregado |
 | Trufas | Fuertemente agregado |
 
-### Resultados Estadísticos Clave
+### Resultados clave
 
 #### Nidos
 
@@ -311,7 +311,7 @@ Ambos patrones rechazaron contundentemente la CSR:
 
 La distancia media al vecino más próximo aportó evidencia adicional sobre la interacción espacial local.
 
-### Principal Hallazgo
+### Principal hallazgo
 
 Los árboles presentaron las distancias más largas al vecino más próximo:
 
@@ -326,7 +326,7 @@ Por el contrario:
 
 ---
 
-## Funciones de Interacción Espacial
+## Funciones de interacción espacial
 
 Se analizaron tres estadísticos funcionales complementarios:
 
@@ -364,11 +364,11 @@ Esto confirma:
 
 ---
 
-## Estimación de la Intensidad por Kernel
+## Estimación de la intensidad por Kernel
 
 La estimación de densidad por kernel transformó los eventos de puntos discretos en mapas continuos de puntos calientes (*hotspots*).
 
-### Principales Hallazgos
+### Principales hallazgos
 
 #### Nidos
 
@@ -396,7 +396,7 @@ La estimación de densidad por kernel transformó los eventos de puntos discreto
 
 ---
 
-# Fase 3 — Modelización Epidemiológica Espacial
+# Fase 3 — Modelización epidemiológica espacial
 
 La tercera etapa analiza la concentración de plomo en sangre en niños de varios municipios de la provincia de Castellón.
 
@@ -404,7 +404,7 @@ El objetivo es evaluar la relación entre la prevalencia de plomo y covariables 
 
 ---
 
-# Flujo de Trabajo Epidemiológico
+# Flujo de trabajo
 
 El análisis combina:
 
@@ -418,7 +418,7 @@ El análisis combina:
 
 ---
 
-## Conjunto de Datos Epidemiológicos
+## Conjunto de datos
 
 ### Población de Estudio
 
@@ -441,7 +441,7 @@ El modelo epidemiológico evaluó la asociación entre la prevalencia y varias c
 * Envejecimiento / estructura demográfica (*Edad*)
 * Desempleo (*Unemployment*)
 
-### Principales Hallazgos
+### Principales hallazgos
 
 Solo el envejecimiento demográfico (`edad`) mostró significación estadística:
 
@@ -455,11 +455,11 @@ Los resultados sugieren que la composición demográfica explica la variación d
 
 ---
 
-## Autocorrelación Espacial
+## Autocorrelación espacial
 
 Se construyeron estructuras de vecindad espacial para evaluar la dependencia a nivel municipal. La autocorrelación se analizó mediante el estadístico I de Moran.
 
-### Principales Resultados
+### Principales resultados
 
 | Variable | Valor p de la prueba de Moran |
 | --- | --- |
@@ -472,18 +472,18 @@ La prueba de la I de Moran para los residuos arrojó un valor p marginal (0,063)
 
 ---
 
-## Comparación de Modelos Espaciales
+## Comparación de modelos espaciales
 
 Se comparó un modelo de regresión logística clásico con un modelo epidemiológico que incorpora información espacial.
 
-### Principales Resultados
+### Principales resultados
 
 | Modelo | AIC |
 | --- | --- |
 | Modelo logístico clásico | 704,21 |
 | Modelo logístico espacial | 700,06 |
 
-El modelo espacial también logró valores de devianza (desviación) más bajos.
+El modelo espacial también logró valores de devianza más bajos.
 
 ### Interpretación
 
@@ -491,11 +491,11 @@ A pesar del valor p marginal de la I de Moran, la incorporación de información
 
 ---
 
-## Diagnósticos Espaciales de Residuos
+## Diagnósticos espaciales de residuos
 
 El análisis de residuos confirmó que el modelo espacial final logró un comportamiento de errores relativamente equilibrado.
 
-### Principales Hallazgos
+### Principales hallazgos
 
 * Las distribuciones de residuos no mostraron sesgos sistemáticos importantes.
 * Los mapas de residuos espaciales identificaron clústeres de municipios específicos donde la variación local no explicada seguía siendo elevada.
@@ -503,7 +503,7 @@ El análisis de residuos confirmó que el modelo espacial final logró un compor
 
 ---
 
-# Resultados Generados
+# Resultados generados
 
 ## Figuras
 
@@ -565,7 +565,7 @@ El análisis de residuos confirmó que el modelo espacial final logró un compor
 
 ---
 
-# Metodologías Espaciales Clave
+# Metodologías
 
 El repositorio demuestra aplicaciones prácticas de:
 
