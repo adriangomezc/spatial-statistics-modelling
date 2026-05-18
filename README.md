@@ -1,3 +1,4 @@
+[![es](https://img.shields.io/badge/lang-es-yellow.svg)](README.es.md)
 # Spatial Statistics and Epidemiological Modelling
 
 > Applied spatial statistics project in R including geostatistical interpolation, spatial point pattern analysis and spatial epidemiological modelling.
